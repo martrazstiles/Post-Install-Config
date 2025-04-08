@@ -1,80 +1,83 @@
 <p align="center">
-<img src="https://i.imgur.com/AeiqMDZ.png" alt="Traffic Examination"/>
+<img src="https://i.imgur.com/Clzj7Xs.png" alt="osTicket logo"/>
 </p>
 
-<h1>Network File Shares and Permission Configuration</h1>
+<h1>osTicket - Post-Installation Setup</h1>
+This guide covers the steps to configure osTicket after installation, setting it up for efficient help desk management.<br />
 
-This lab walks through the process of sharing resources across a network by creating directories and setting specific permissions to grant or restrict read/write access for users and groups. <br />
+<h2>Tools and Platforms Used</h2>
 
-<h2>Tools and Environment Used</h2>
-
-- Microsoft Azure (VMs including Domain Controller and Client)
+- Microsoft Azure (Virtual Machines/Compute Services)
 - Remote Desktop Protocol (RDP)
-- Shared File Resources over Network
+- Internet Information Services (IIS)
 
-<h2>Operating System</h2>
+<h2>Operating System Utilized</h2>
 
 - Windows 10</b> (version 21H2)
 
-<h2>Requirements</h2>
-
-- A Virtual Machine functioning as a Domain Controller with Active Directory Domain Services (AD DS) installed
-- A separate Virtual Machine acting as a Client system
-
-<h2>Step-by-Step Instructions</h2>
+<h2>Setup Process</h2>
 
 <p>
-<img src="https://i.imgur.com/IX7eI1M.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://i.imgur.com/sx170cG.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-Start by logging into the DC-1 machine using the domain administrator credentials (mydomain.com\ken_admin). On the Client-1 machine, log in using a standard user account (mydomain\<someuser>). On DC-1’s C:\ drive, create four new directories named: read-access, write-access, no-access, and accounting.
+Awesome! With osTicket installed successfully, it's time to carry out administrative configuration tasks. We'll begin by setting up user roles to help manage permissions and access across the platform.
 </p>
 <br />
 
 <p>
-<img src="https://i.imgur.com/YpWvuuh.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://i.imgur.com/DAhGSan.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-Next, on DC-1, adjust sharing and permission settings for each folder:
-- For the "read-access" folder, provide Read access to the Domain Users group.
-- For "write-access", grant Read/Write permissions to Domain Users.
-- For "no-access", only Domain Admins should have Read/Write rights.
-- Skip permissions for the "accounting" folder at this point.
+To define roles in osTicket, head to the Admin Panel, navigate to Agents, then choose Roles. Click "Add new role" and input a name like "Supreme Admin". This role will include full system access, so make sure to enable every available permission before saving.
 </p>
 <br />
 
 <p>
-<img src="https://i.imgur.com/mJLXlBj.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-<img src="https://i.imgur.com/Uuy43Na.pngg" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://i.imgur.com/KzFVjJQ.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-Now, on the Client-1 VM, access File Explorer and enter \\dc-1 in the address bar to browse available shares. Try accessing each folder:
-- You’ll be able to open "read-access" and view files, but not make changes.
-- "write-access" will allow full modification privileges.
-- Access to "no-access" will be blocked for non-admin users.
+Next, select "Departments" under the Agents section. You’ll use this area to assign agents to specific departments. Create one called "System Administrators" to house all Supreme Admin-level users. Additional features like SLA policies, department managers, and email settings can be configured here to fine-tune your support workflow.
 </p>
 <br />
 
 <p>
-<img src="https://i.imgur.com/xsdCaQp.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://i.imgur.com/ob4MEma.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-On DC-1, open Active Directory Users and Computers (ADUC) and create a new Organizational Unit named _GROUPS. Inside this OU, set up a security group called ACCOUNTANTS.
-</p>
-<br />
-
-<p>
-<img src="https://i.imgur.com/cZo9Poi.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
-</p>
-<p>
-Still in ADUC, add domain users to the ACCOUNTANTS group by right-clicking it, selecting Properties, switching to the Members tab, and choosing the users to include. Then return to the "accounting" folder and assign the ACCOUNTANTS group Read/Write access.
+To manage agent collaboration, go to Admin Panel -> Agents -> Teams. Teams allow multiple agents from various departments to work together. Set up a team titled "Level II Support" and assign the relevant agents accordingly.
 </p>
 <br />
 
 <p>
-<img src="https://i.imgur.com/HzkNmDO.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+<img src="https://i.imgur.com/TcRrhwN.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
 </p>
 <p>
-Restart the Client-1 virtual machine and log in with a user who is part of the ACCOUNTANTS group. Open File Explorer, type \\dc-1, and attempt to access the accounting folder. Access should now be granted thanks to the new group permissions.
+To make ticket submission open to all, navigate to Admin Panel -> Settings -> User Settings. Disable the "Require registration and login to create tickets" option so users can submit tickets without needing an account.
+</p>
+<br />
+
+<p>
+<img src="https://i.imgur.com/dwAhP3I.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+</p>
+<p>
+To add new agents (staff), go to Admin Panel -> Agents -> Add New. Complete the necessary information such as name, email address, assigned role, and department to create their profile and assign permissions.
+</p>
+<br />
+
+<p>
+<img src="https://i.imgur.com/aYLnu3z.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+</p>
+<p>
+To register users (clients), go to the Agent Panel -> Users -> Add New. Add individuals like Ryu and Ken by entering their names and email addresses. This enables them to submit and track their support tickets.
+</p>
+<br />
+
+<p>
+<img src="https://i.imgur.com/YXWfwh8.png" height="80%" width="80%" alt="Disk Sanitization Steps"/>
+</p>
+<p>
+For ticket categorization, navigate to Admin Panel -> Manage -> Help Topics. Help topics assist users in selecting the right category when creating tickets, streamlining the ticket routing process.
+
 </p>
 <br />
